@@ -1,182 +1,303 @@
-import { useEffect, useState } from 'react';
-import { MapPin, Calendar, Gamepad2, Link as LinkIcon, Download, Smartphone, Layout, Code2, Sparkles, Send } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import CustomCursor from './CustomCursor';
+import Background3D from './Background3D';
+import { useMagnetic } from './useMagnetic';
 import './index.css';
 
-const InstagramIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-  </svg>
-);
+function useReveal() {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 15.66a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.06z"/>
-  </svg>
-);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
 
-const DiscordIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-  </svg>
-);
-
-const GithubIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-  </svg>
-);
-
-const LineIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 3.55 8.888 8.528 9.619.333.072.785.22.9.52.1.28.064.717.031 1.004-.04.349-.256 1.545-.313 1.884-.076.452-.355 1.737 1.52.946 1.874-.791 10.1-5.952 12.181-9.155C23.621 13.568 24 11.982 24 10.304zm-15.602 3.197H6.262c-.328 0-.594-.266-.594-.594V7.275c0-.328.266-.594.594-.594h.023c.328 0 .594.266.594.594v5.038h1.519c.328 0 .594.266.594.594v.024c0 .327-.266.593-.594.593zm2.535-1.188c0 .328-.266.594-.594.594h-.024c-.328 0-.594-.266-.594-.594V7.275c0-.328.266-.594.594-.594h.024c.328 0 .594.266.594.594v5.632zm4.568 0c0 .328-.266.594-.594.594h-.024c-.328 0-.594-.266-.594-.594V9.281l-1.951 3.526c-.035.064-.085.116-.145.152-.061.037-.129.056-.2.056h-.023c-.328 0-.594-.266-.594-.594V7.275c0-.328.266-.594.594-.594h.024c.328 0 .594.266.594.594v4.137l1.95-3.526c.036-.064.086-.116.146-.152.06-.037.129-.056.2-.056h.023c.328 0 .594.266.594.594v5.632zm4.567-3.901H18.55v1.503h1.518c.328 0 .594.266.594.594v.023c0 .328-.266.594-.594.594H18.55v1.782h1.518c.328 0 .594.266.594.594h-.023c-.328 0-.594-.266-.594-.594V7.275c0-.328.266-.594.594-.594h2.135c.328 0 .594.266.594.594v.024c0 .328-.266.593-.594.593z"/>
-  </svg>
-);
-
-function App() {
-  const [mounted, setMounted] = useState(false);
+function useClock() {
+  const [timeStr, setTimeStr] = useState('');
 
   useEffect(() => {
-    setMounted(true);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    
+    const update = () => {
+      const now = new Date();
+      const tyo = `/TYO ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const lon = new Date(utc + 3600000 * 1);
+      const nyc = new Date(utc + 3600000 * -4);
+      const par = new Date(utc + 3600000 * 2);
+      
+      setTimeStr(`${tyo}  /LON ${pad(lon.getHours())}:${pad(lon.getMinutes())}  /NYC ${pad(nyc.getHours())}:${pad(nyc.getMinutes())}  /PAR ${pad(par.getHours())}:${pad(par.getMinutes())}`);
+    };
+    
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
   }, []);
 
-  const roles = [
-    { name: "Web Designer", icon: <Layout className="w-4 h-4" /> },
-    { name: "App Developer", icon: <Smartphone className="w-4 h-4" /> },
-    { name: "UI Designer", icon: <Sparkles className="w-4 h-4" /> },
-    { name: "CLI Developer", icon: <Code2 className="w-4 h-4" /> },
-    { name: "AI Developer", icon: <Code2 className="w-4 h-4" /> },
-  ];
+  return timeStr;
+}
 
-  const games = [
-    { name: "原神", id: "UID: 1817956924" },
-    { name: "Minecraft", id: "" },
-    { name: "APEX", id: "" },
-    { name: "VALORANT", id: "" },
-    { name: "GTA", id: "" },
-    { name: "Xbox", id: "ID: BraveWings#9521" },
-  ];
+function App() {
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('sora_theme') as 'dark' | 'light') || 'dark';
+  });
+  const [navScrolled, setNavScrolled] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const lastY = useRef(0);
 
-  const links = [
-    { name: "Instagram", url: "https://www.instagram.com/sora18161/", icon: <InstagramIcon className="w-5 h-5" /> },
-    { name: "TikTok Main", url: "https://www.tiktok.com/@sora.k94", icon: <TikTokIcon className="w-5 h-5" /> },
-    { name: "TikTok Sub", url: "https://www.tiktok.com/@sora_code", icon: <TikTokIcon className="w-5 h-5" /> },
-    { name: "Threads", url: "https://www.threads.com/@sora18161", icon: <LinkIcon className="w-5 h-5" /> },
-    { name: "Discord", url: "https://discord.com/users/1400621675048996985", icon: <DiscordIcon className="w-5 h-5" /> },
-    { name: "LINE", url: "https://line.me/ti/p/Vby8L2URqB", icon: <LineIcon className="w-5 h-5" /> },
-    { name: "GitHub", url: "https://github.com/sorak0460", icon: <GithubIcon className="w-5 h-5" /> },
-  ];
+  const clockStr = useClock();
+  useReveal();
+  useMagnetic();
 
-  if (!mounted) return null;
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sora_theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setNavScrolled(y > 50);
+      
+      if (y > lastY.current && y > 200) {
+        setNavHidden(true);
+      } else {
+        setNavHidden(false);
+      }
+      lastY.current = y;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleCopy = (text: string, e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget.querySelector('.game-sub') as HTMLElement;
+    if (el) {
+      const original = el.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        el.innerText = 'Copied!';
+        setTimeout(() => el.innerText = original, 2000);
+      });
+    }
+  };
 
   return (
-    <div className="container">
+    <>
+      <CustomCursor />
+      <Background3D theme={theme} />
+
+      <nav className={`nav ${navScrolled ? 'scrolled' : ''} ${navHidden ? 'hidden-nav' : ''}`}>
+        <div className="nav-left">
+          <a href="#hero" className="nav-logo">SORA</a>
+        </div>
+        <div className="nav-center">
+          <span className="nav-clock">{clockStr}</span>
+        </div>
+        <div className="nav-right">
+          <button className="theme-btn magnetic" onClick={toggleTheme}>
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="section" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <div className="animate-fade-in-up" style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: '4rem', marginBottom: '1rem', letterSpacing: '-0.05em' }}>
-            <span className="text-gradient">Sora</span> K
-          </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
-            Creative Developer & Designer
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.8rem' }}>
-            {roles.map((role, i) => (
-              <span 
-                key={i} 
-                className={`glass-panel animate-fade-in-up delay-${Math.min(i + 1, 5) * 100}`}
-                style={{ padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', borderRadius: '9999px', animationFillMode: 'forwards' }}
-              >
-                {role.icon} {role.name}
-              </span>
-            ))}
+      <section id="hero" className="section hero-section">
+        <div className="hero-content">
+          <p className="hero-tag reveal stagger-1">/ PROFILE</p>
+          <div className="hero-title-wrap">
+            <h1 className="hero-title reveal stagger-2">
+              <span className="hero-title-line">A CREATIVE</span>
+              <span className="hero-title-line hero-title-right">[ DEVELOPER ]</span>
+            </h1>
+          </div>
+          <div className="hero-bottom reveal stagger-3">
+            <div className="hero-bottom-left">
+              <p className="hero-desc">
+                Web Designer / App Developer / UI Engineer<br/>
+                Based in Kumamoto, Japan
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="section animate-fade-in-up delay-300" style={{ animationFillMode: 'forwards' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center' }}>About Me</h2>
-        <div className="glass-panel" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ padding: '0.8rem', background: 'var(--glass-bg)', borderRadius: '12px' }}><MapPin className="w-5 h-5 text-gradient" /></div>
-              <div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Location</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>Kumamoto, Japan</div>
+      <section id="about" className="section">
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <p className="section-tag reveal">/ ABOUT</p>
+          <div className="about-layout">
+            <div className="about-left reveal">
+              <p className="about-bio">
+                熊本出身のクリエイター。Webデザイン、アプリ開発、UIデザインを手がけています。美しいインターフェースとユーザー体験を追求し、テクノロジーとデザインの融合を目指しています。
+              </p>
+            </div>
+            <div className="about-right reveal">
+              <div className="about-info-item">
+                <span className="about-info-label">NAME</span>
+                <span className="about-info-value">Sora K</span>
+                <span className="blue-dot"></span>
               </div>
-            </li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ padding: '0.8rem', background: 'var(--glass-bg)', borderRadius: '12px' }}><Calendar className="w-5 h-5 text-gradient" /></div>
-              <div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Born</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>2013 / 9 / 3</div>
+              <div className="about-info-item">
+                <span className="about-info-label">BIRTHDAY</span>
+                <span className="about-info-value">2013 / 09 / 03</span>
+                <span className="blue-dot"></span>
               </div>
-            </li>
-          </ul>
+              <div className="about-info-item">
+                <span className="about-info-label">LOCATION</span>
+                <span className="about-info-value">Kumamoto, Japan</span>
+                <span className="blue-dot"></span>
+              </div>
+              <div className="about-info-item">
+                <span className="about-info-label">ROLE</span>
+                <span className="about-info-value">Web Designer / UI Engineer / App Developer</span>
+                <span className="blue-dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="section">
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <p className="section-tag reveal">/ SKILLS</p>
+          <div className="skills-list">
+            {[
+              { num: '01', name: 'Web Design', tag: 'DESIGN' },
+              { num: '02', name: 'App Development', tag: 'DEV' },
+              { num: '03', name: 'UI / UX Design', tag: 'DESIGN' },
+              { num: '04', name: 'Frontend Engineering', tag: 'DEV' },
+              { num: '05', name: 'CLI / AI Development', tag: 'DEV' }
+            ].map(skill => (
+              <div key={skill.num} className="skill-row reveal">
+                <span className="skill-num">{skill.num}</span>
+                <span className="skill-name">{skill.name}</span>
+                <span className="skill-tag">{skill.tag}</span>
+                <span className="blue-dot"></span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Works Section */}
+      <section id="works" className="section">
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <p className="section-tag reveal">/ WORKS</p>
+          <div className="works-grid">
+            <div className="work-card reveal">
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
+                <span className="work-num">01</span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '6px 14px', background: 'var(--blue)', color: 'var(--white)', letterSpacing: '2px' }}>APP</span>
+              </div>
+              <h3 className="work-title">AI Avatar Chat</h3>
+              <p className="work-desc">
+                AIとアバターを駆使したリアルタイムAIチャットアプリ。Android端末専用アプリケーション（APK形式）として提供しています。
+              </p>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>AI</span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>Android</span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>Avatar</span>
+              </div>
+              <a href="https://drive.google.com/file/d/1ILkZZei-cIMxye7zFuIJGcTUyvZtfmgu/view" target="_blank" rel="noopener noreferrer" className="work-download-btn magnetic">
+                DOWNLOAD →
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Games Section */}
-      <section className="section animate-fade-in-up delay-400" style={{ animationFillMode: 'forwards' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center' }}>Playing</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-          {games.map((game, i) => (
-            <div key={i} className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.2rem' }}>
-              <div style={{ padding: '0.8rem', background: 'var(--glass-bg)', borderRadius: '12px', color: 'var(--accent-1)' }}>
-                <Gamepad2 className="w-6 h-6" />
+      <section id="games" className="section">
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <p className="section-tag reveal">/ GAMES</p>
+          <p className="reveal" style={{ color: 'var(--gray)', marginBottom: '32px', fontSize: '0.9rem' }}>クリックでIDをコピーできます</p>
+          <div className="games-grid">
+            {[
+              { icon: '⚔️', name: '原神', sub: 'UID: 1817956924', copy: '1817956924' },
+              { icon: '🎮', name: 'Xbox', sub: 'BraveWings#9521', copy: 'BraveWings#9521' },
+              { icon: '⛏️', name: 'Minecraft', sub: 'マイクラ', copy: '' },
+              { icon: '🎯', name: 'APEX', sub: 'Apex Legends', copy: '' },
+              { icon: '🔫', name: 'VALORANT', sub: 'Tactical Shooter', copy: '' },
+              { icon: '🚗', name: 'GTA', sub: 'Grand Theft Auto', copy: '' }
+            ].map((game, i) => (
+              <div key={i} className="game-item reveal clickable" onClick={game.copy ? (e) => handleCopy(game.copy, e) : undefined}>
+                <span className="game-icon" style={{ fontSize: '1.5rem', marginBottom: '8px' }}>{game.icon}</span>
+                <h3 className="game-name">{game.name}</h3>
+                <p className="game-sub">{game.sub}</p>
               </div>
-              <div>
-                <div style={{ fontWeight: '600' }}>{game.name}</div>
-                {game.id && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{game.id}</div>}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* App Download Section */}
-      <section className="section animate-fade-in-up delay-500" style={{ animationFillMode: 'forwards', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>My Applications</h2>
-        <div className="glass-panel" style={{ maxWidth: '600px', margin: '0 auto', padding: '3rem 2rem' }}>
-          <Sparkles className="w-10 h-10 text-gradient" style={{ margin: '0 auto 1.5rem auto' }} />
-          <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>AI Avatar Chat</h3>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Android端末専用アプリケーション (APK形式)</p>
-          <a href="https://drive.google.com/file/d/1ILkZZei-cIMxye7zFuIJGcTUyvZtfmgu/view" target="_blank" rel="noopener noreferrer" className="btn-primary btn-glow">
-            <Download className="w-5 h-5" style={{ marginRight: '0.5rem' }} /> Download APK
-          </a>
-        </div>
-      </section>
-
-      {/* Links & Contact Section */}
-      <section className="section animate-fade-in-up delay-500" style={{ animationFillMode: 'forwards' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center' }}>Connect</h2>
-        
-        <div style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))', padding: '2rem', borderRadius: '16px', border: '1px solid var(--accent-1)', textAlign: 'center', marginBottom: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ background: 'rgba(59, 130, 246, 0.2)', padding: '1rem', borderRadius: '50%' }}>
-            <Send className="w-6 h-6" style={{ color: 'var(--accent-1)' }} />
-          </div>
-          <div>
-            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Contact Me</h3>
-            <p style={{ color: 'var(--text-muted)' }}>ご用件やDMは、TIKTOKまでお願いいたします。</p>
+            ))}
           </div>
         </div>
+      </section>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
-          {links.map((link, i) => (
-            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', padding: '1.5rem' }}>
-              {link.icon}
-              <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>{link.name}</span>
-            </a>
-          ))}
+      {/* Links Section */}
+      <section id="links" className="section">
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <p className="section-tag reveal">/ LINKS</p>
+          <p className="reveal" style={{ color: 'var(--gray)', marginBottom: '32px', fontSize: '0.9rem' }}>DMはTikTokにお願いします 🙏</p>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {[
+              { num: '01', name: 'Instagram', handle: '@sora18161', url: 'https://www.instagram.com/sora18161/' },
+              { num: '02', name: 'TikTok Main', handle: '@sora.k94', url: 'https://www.tiktok.com/@sora.k94' },
+              { num: '03', name: 'TikTok Sub', handle: '@sora_code', url: 'https://www.tiktok.com/@sora_code' },
+              { num: '04', name: 'Threads', handle: '@sora18161', url: 'https://www.threads.com/@sora18161' },
+              { num: '05', name: 'Discord', handle: 'Profile', url: 'https://discord.com/users/1400621675048996985' },
+              { num: '06', name: 'LINE', handle: '友だち追加', url: 'https://line.me/ti/p/Vby8L2URqB' },
+              { num: '07', name: 'GitHub', handle: '@sorak0460', url: 'https://github.com/sorak0460' }
+            ].map(link => (
+              <a key={link.num} href={link.url} target="_blank" rel="noopener noreferrer" className="link-row reveal">
+                <span className="link-num">{link.num}</span>
+                <span className="link-name">{link.name}</span>
+                <span className="link-handle">{link.handle}</span>
+                <span className="link-arrow">→</span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
-      
-      <footer style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4rem' }}>
-        &copy; {new Date().getFullYear()} Sora K. All rights reserved.
+
+      {/* Footer */}
+      <footer className="footer-section">
+        <div className="section-divider"></div>
+        <div className="footer-top">
+          <span>&copy; SORA 2026</span>
+          <span className="nav-clock">{clockStr}</span>
+          <span style={{ display: 'flex', gap: '24px' }}>
+            <a href="https://www.instagram.com/sora18161/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@sora.k94" target="_blank" rel="noopener noreferrer">TikTok</a>
+          </span>
+        </div>
+        <div className="footer-credit">Created by Sora K</div>
+        <div className="footer-big-text" aria-hidden="true">
+          <div className="footer-marquee">
+            <span>SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;</span>
+            <span>SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;</span>
+          </div>
+          <div className="footer-marquee footer-marquee-reverse">
+            <span>SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;</span>
+            <span>SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;SORA&nbsp;&nbsp;</span>
+          </div>
+        </div>
       </footer>
-    </div>
+    </>
   );
 }
 
