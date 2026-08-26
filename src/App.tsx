@@ -3,6 +3,7 @@ import CustomCursor from './CustomCursor';
 import Background3D from './Background3D';
 import Magnetic from './Magnetic';
 import SmoothScroll from './SmoothScroll';
+import TermsModal from './TermsModal';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import './index.css';
@@ -78,6 +79,9 @@ function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('sora_theme') as 'dark' | 'light') || 'dark';
   });
+  const [showTOS, setShowTOS] = useState(() => {
+    return localStorage.getItem('sora_tos_accepted') !== 'true';
+  });
   const [navScrolled, setNavScrolled] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const lastY = useRef(0);
@@ -118,8 +122,18 @@ function App() {
     }
   };
 
+  const acceptTOS = () => {
+    localStorage.setItem('sora_tos_accepted', 'true');
+    setShowTOS(false);
+  };
+
+  const openTOS = () => {
+    setShowTOS(true);
+  };
+
   return (
     <SmoothScroll>
+      <TermsModal isOpen={showTOS} onAccept={acceptTOS} />
       <CustomCursor />
       <Background3D theme={theme} />
 
@@ -349,9 +363,10 @@ function App() {
       <footer className="footer-section">
         <div className="section-divider"></div>
         <div className="footer-top">
-          <span>&copy; SORA 2026</span>
+          <span>&copy; SORA 2026. All Rights Reserved.</span>
           <span className="nav-clock"><Clock /></span>
           <span style={{ display: 'flex', gap: '24px' }}>
+            <button onClick={openTOS} style={{ color: 'var(--gray)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '2px' }} className="magnetic">TERMS</button>
             <a href="https://www.instagram.com/sora18161/" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="https://www.tiktok.com/@sora.k94" target="_blank" rel="noopener noreferrer">TikTok</a>
           </span>
