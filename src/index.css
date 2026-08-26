@@ -590,6 +590,7 @@ a[href] {
 .modal-content {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding-right: 16px;
   margin-bottom: 32px;
 }

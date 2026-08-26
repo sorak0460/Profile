@@ -50,7 +50,7 @@ export default function TermsModal({ isOpen, onAccept }: TermsModalProps) {
             <h2 className="modal-title">TERMS OF SERVICE</h2>
             <p className="modal-subtitle">サイト利用規約（重要）</p>
             
-            <div className="modal-content" onScroll={handleScroll} ref={contentRef}>
+            <div className="modal-content" onScroll={handleScroll} ref={contentRef} data-lenis-prevent="true">
               <h3>第1条（著作権・無断複製・リバースエンジニアリングの禁止）</h3>
               <p>
                 本サイト（ソースコード、デザイン、テキスト、画像、アニメーション実装等の全て）に関する著作権およびその他の一切の知的財産権は、制作者（Sora K）に帰属します。
