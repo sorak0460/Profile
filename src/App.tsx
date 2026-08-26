@@ -160,7 +160,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: false, margin: "-100px" }}
       >
         <div className="hero-content">
           <motion.p variants={itemVar} className="hero-tag">/ PROFILE</motion.p>
@@ -188,7 +188,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-150px" }}
+        viewport={{ once: false, margin: "-150px" }}
       >
         <div className="section-inner">
           <div className="section-divider"></div>
@@ -232,7 +232,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-150px" }}
+        viewport={{ once: false, margin: "-150px" }}
       >
         <div className="section-inner">
           <div className="section-divider"></div>
@@ -263,7 +263,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-150px" }}
+        viewport={{ once: false, margin: "-150px" }}
       >
         <div className="section-inner">
           <div className="section-divider"></div>
@@ -300,7 +300,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-150px" }}
+        viewport={{ once: false, margin: "-150px" }}
       >
         <div className="section-inner">
           <div className="section-divider"></div>
@@ -332,7 +332,7 @@ function App() {
         variants={containerVar}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-150px" }}
+        viewport={{ once: false, margin: "-150px" }}
       >
         <div className="section-inner">
           <div className="section-divider"></div>
