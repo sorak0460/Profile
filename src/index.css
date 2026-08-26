@@ -81,8 +81,6 @@ html[data-theme="light"] .noise-overlay {
     border-radius: 50%;
     pointer-events: none;
     z-index: 11000;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s var(--ease), background 0.3s;
   }
   .cursor-follower {
     position: fixed;
@@ -94,8 +92,6 @@ html[data-theme="light"] .noise-overlay {
     border-radius: 50%;
     pointer-events: none;
     z-index: 10999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s linear, width 0.3s, height 0.3s, opacity 0.3s, border-color 0.3s;
   }
   .cursor.hovered {
     transform: translate(-50%, -50%) scale(0);

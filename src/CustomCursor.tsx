@@ -1,79 +1,90 @@
 import { useEffect, useRef } from 'react';
+import { motion, useSpring } from 'framer-motion';
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
+
+  // Use springs for the follower lag
+  const cursorX = useSpring(0, { stiffness: 1000, damping: 50 });
+  const cursorY = useSpring(0, { stiffness: 1000, damping: 50 });
+  
+  const followerX = useSpring(0, { stiffness: 200, damping: 25, mass: 0.5 });
+  const followerY = useSpring(0, { stiffness: 200, damping: 25, mass: 0.5 });
 
   useEffect(() => {
-    // Media query equivalent for hover: hover and pointer: fine
     const isHoverableDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!isHoverableDevice) return;
 
-    const cursor = cursorRef.current;
-    const follower = followerRef.current;
-    if (!cursor || !follower) return;
-
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-    let isMounted = true;
-
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = `${mouseX}px`;
-      cursor.style.top = `${mouseY}px`;
-    };
-
-    const animateFollower = () => {
-      if (!isMounted) return;
-      followerX += (mouseX - followerX) * 0.2;
-      followerY += (mouseY - followerY) * 0.2;
-      follower.style.left = `${followerX}px`;
-      follower.style.top = `${followerY}px`;
-      requestAnimationFrame(animateFollower);
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+      followerX.set(e.clientX);
+      followerY.set(e.clientY);
     };
 
     window.addEventListener('mousemove', onMouseMove);
-    requestAnimationFrame(animateFollower);
 
-    // MutationObserver to attach hover events to dynamic elements
     const handleHoverElements = () => {
       const hoverTargets = document.querySelectorAll('a, button, .clickable, .work-card, .game-item, .magnetic');
       hoverTargets.forEach((el) => {
-        // Avoid adding multiple listeners
         if (el.getAttribute('data-cursor-attached')) return;
         el.setAttribute('data-cursor-attached', 'true');
 
         el.addEventListener('mouseenter', () => {
-          cursor.classList.add('hovered');
-          follower.classList.add('hovered');
+          if (cursorRef.current) cursorRef.current.classList.add('hovered');
+          document.documentElement.style.setProperty('--follower-scale', '2');
+          document.documentElement.style.setProperty('--follower-bg', 'rgba(0, 51, 255, 0.1)');
+          document.documentElement.style.setProperty('--follower-border', 'var(--blue)');
         });
         el.addEventListener('mouseleave', () => {
-          cursor.classList.remove('hovered');
-          follower.classList.remove('hovered');
+          if (cursorRef.current) cursorRef.current.classList.remove('hovered');
+          document.documentElement.style.setProperty('--follower-scale', '1');
+          document.documentElement.style.setProperty('--follower-bg', 'transparent');
+          document.documentElement.style.setProperty('--follower-border', 'var(--black)');
         });
       });
     };
 
-    const observer = new MutationObserver(() => {
-      handleHoverElements();
-    });
-
+    const observer = new MutationObserver(handleHoverElements);
     observer.observe(document.body, { childList: true, subtree: true });
     handleHoverElements();
 
     return () => {
-      isMounted = false;
       window.removeEventListener('mousemove', onMouseMove);
       observer.disconnect();
     };
-  }, []);
+  }, [cursorX, cursorY, followerX, followerY]);
 
   return (
     <>
       <div className="noise-overlay"></div>
-      <div className="cursor" ref={cursorRef}></div>
-      <div className="cursor-follower" ref={followerRef}></div>
+      
+      {/* Real cursor (instant) */}
+      <motion.div 
+        className="cursor" 
+        ref={cursorRef}
+        style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
+      
+      {/* Bouncy Follower */}
+      <motion.div 
+        className="cursor-follower" 
+        style={{
+          x: followerX,
+          y: followerY,
+          translateX: '-50%',
+          translateY: '-50%',
+          scale: 'var(--follower-scale, 1)',
+          background: 'var(--follower-bg, transparent)',
+          borderColor: 'var(--follower-border, var(--black))',
+          transition: 'scale 0.3s, background 0.3s, border-color 0.3s'
+        }}
+      />
     </>
   );
 }
