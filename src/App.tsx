@@ -256,42 +256,6 @@ function App() {
         </div>
       </motion.section>
 
-      {/* Works Section */}
-      <motion.section 
-        id="works" 
-        className="section"
-        variants={containerVar}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, margin: "-150px" }}
-      >
-        <div className="section-inner">
-          <div className="section-divider"></div>
-          <motion.p variants={itemVar} className="section-tag">/ WORKS</motion.p>
-          <div className="works-grid">
-            <motion.div variants={itemVar} className="work-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
-                <span className="work-num">01</span>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '6px 14px', background: 'var(--blue)', color: 'var(--white)', letterSpacing: '2px' }}>APP</span>
-              </div>
-              <h3 className="work-title">AI Avatar Chat</h3>
-              <p className="work-desc">
-                AIとアバターを駆使したリアルタイムAIチャットアプリ。Android端末専用アプリケーション（APK形式）として提供しています。
-              </p>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>AI</span>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>Android</span>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '5px 12px', border: '1px solid var(--border)', color: 'var(--gray)', letterSpacing: '1px' }}>Avatar</span>
-              </div>
-              <Magnetic>
-                <a href="https://drive.google.com/file/d/1ILkZZei-cIMxye7zFuIJGcTUyvZtfmgu/view" target="_blank" rel="noopener noreferrer" className="work-download-btn">
-                  DOWNLOAD →
-                </a>
-              </Magnetic>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
 
       {/* Games Section */}
       <motion.section 
