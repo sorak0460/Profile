@@ -256,6 +256,141 @@ function App() {
         </div>
       </motion.section>
 
+      {/* Works Section */}
+      <motion.section 
+        id="works" 
+        className="section"
+        variants={containerVar}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: "-150px" }}
+      >
+        <div className="section-inner">
+          <div className="section-divider"></div>
+          <motion.p variants={itemVar} className="section-tag">/ WORKS</motion.p>
+          <motion.p variants={itemVar} style={{ color: 'var(--gray)', marginBottom: '32px', fontSize: '0.9rem' }}>
+            自作Webアプリケーション &amp; AIツール
+          </motion.p>
+
+          {/* Featured App: AmazonOFF */}
+          <div className="works-featured-wrap">
+            <motion.div variants={itemVar} className="work-card-featured">
+              <div className="work-card-header">
+                <span className="work-num">01</span>
+                <div className="work-badges">
+                  <span className="work-badge-primary">FEATURED APP</span>
+                  <span className="work-badge-secondary">AI SHOPPING STOPPER</span>
+                </div>
+              </div>
+              <h3 className="work-title">AmazonOFF (アマゾンオフ)</h3>
+              <p className="work-sub">物欲クーリングオフ＆無駄遣い防止AIアプリ</p>
+              <p className="work-desc">
+                Amazonでの衝動買いをAIが客観的な理由で冷静にストップ。商品URLやスクショを送信するだけで「買わない理由」「買うべき理由」を論理的・多角的に分析し、高品質な代替品自動提案や時給・労働時間換算などで本当に必要かを判定するスマートな買い物サポートツールです。
+              </p>
+              <div className="work-tags">
+                <span className="work-tag">Next.js</span>
+                <span className="work-tag">Gemini AI</span>
+                <span className="work-tag">衝動買い防止</span>
+                <span className="work-tag">代替品自動検索</span>
+                <span className="work-tag">時給・労働時間換算</span>
+              </div>
+              <Magnetic>
+                <a 
+                  href="https://amazon-off.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="work-action-btn"
+                >
+                  VISIT APP →
+                </a>
+              </Magnetic>
+            </motion.div>
+          </div>
+
+          {/* Sister Apps Suite */}
+          <div className="works-suite-section">
+            <motion.div variants={itemVar} className="works-suite-header">
+              <h4 className="works-suite-title">
+                <span>AmazonOFF 系列アプリ（Sister AI Suite）</span>
+                <span className="blue-dot"></span>
+              </h4>
+              <p className="works-suite-desc">
+                衝動買い・夜食・悪ノリ・夜更かしをAIの鋭い分析とユーモアで未然に防ぐ、4つの特化型AIツール。
+              </p>
+            </motion.div>
+
+            <div className="works-suite-grid">
+              {[
+                {
+                  num: '02',
+                  name: '長文お断りカッター',
+                  badge: 'AI UTILITY',
+                  sub: 'ダラダラ文を3行圧縮',
+                  desc: '送信前の長文やまとまらない下書きをAIがスキャンし、最も要点が伝わる「超要約3行」に強制圧縮＆辛口コメント。ワンタップでコピー可能。',
+                  tags: ['AI要約', '3行圧縮', 'コミュニケーション'],
+                  url: 'https://amazon-off.vercel.app/text-cutter',
+                  btn: 'TRY TOOL →'
+                },
+                {
+                  num: '03',
+                  name: '深夜の飯テロ・ストッパー',
+                  badge: 'VISION AI',
+                  sub: '夜食のカロリー現実直視',
+                  desc: '食べようとしている夜食の写真をAIが即時画像解析。カロリー・糖質・翌朝のむくみ予測と、消費に必要な運動量（バーピージャンプ回数）を突きつけて夜食を抑止。',
+                  tags: ['画像認識', 'ダイエット', '夜食防止'],
+                  url: 'https://amazon-off.vercel.app/midnight-blocker',
+                  btn: 'TRY TOOL →'
+                },
+                {
+                  num: '04',
+                  name: '送信前ドランクチェッカー',
+                  badge: 'AI DIAGNOSTIC',
+                  sub: '深夜のイタいLINE防止',
+                  desc: '深夜の謎テンションで送ろうとしているLINEやメッセージをAIがシラフ判定。文章のポエム度やアルコール濃度から「翌朝の恥ずかしさスコア」を算出し、黒歴史を未然に防止。',
+                  tags: ['LINE防止', 'シラフ診断', '黒歴史ガード'],
+                  url: 'https://amazon-off.vercel.app/drunk-checker',
+                  btn: 'TRY TOOL →'
+                },
+                {
+                  num: '05',
+                  name: 'あと1本だけ防止キラー',
+                  badge: 'SPOILER AI',
+                  sub: '動画のオチを即ネタバレ',
+                  desc: '見ようとしている動画や作品の結末・オチをAIが先回りして容赦なくネタバレ。「オチを知ったからもう見る必要がない」状態を作り出し、夜更かしを強制終了して睡眠を保護。',
+                  tags: ['ネタバレAI', '睡眠管理', '夜更かし防止'],
+                  url: 'https://amazon-off.vercel.app/binge-buster',
+                  btn: 'TRY TOOL →'
+                }
+              ].map(app => (
+                <motion.div key={app.num} variants={itemVar} className="work-card">
+                  <div className="work-card-header">
+                    <span className="work-num">{app.num}</span>
+                    <span className="work-badge-primary">{app.badge}</span>
+                  </div>
+                  <h3 className="work-title" style={{ fontSize: '1.25rem' }}>{app.name}</h3>
+                  <p className="work-sub">{app.sub}</p>
+                  <p className="work-desc" style={{ minHeight: '4.8em' }}>{app.desc}</p>
+                  <div className="work-tags">
+                    {app.tags.map((t, idx) => (
+                      <span key={idx} className="work-tag">{t}</span>
+                    ))}
+                  </div>
+                  <Magnetic>
+                    <a 
+                      href={app.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="work-action-btn"
+                    >
+                      {app.btn}
+                    </a>
+                  </Magnetic>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Games Section */}
       <motion.section 
