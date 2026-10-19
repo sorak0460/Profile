@@ -256,7 +256,8 @@ function App() {
         </div>
       </motion.section>
 
-      {/* Works Section */}
+      {/* Works Section (非表示中: 再表示する場合はコメントを解除してください) */}
+      {/* 
       <motion.section 
         id="works" 
         className="section"
@@ -272,7 +273,7 @@ function App() {
             自作Webアプリケーション &amp; AIツール
           </motion.p>
 
-          {/* Featured App: AmazonOFF */}
+          <!-- Featured App: AmazonOFF -->
           <div className="works-featured-wrap">
             <motion.div variants={itemVar} className="work-card-featured">
               <div className="work-card-header">
@@ -307,7 +308,7 @@ function App() {
             </motion.div>
           </div>
 
-          {/* Sister Apps Suite */}
+          <!-- Sister Apps Suite -->
           <div className="works-suite-section">
             <motion.div variants={itemVar} className="works-suite-header">
               <h4 className="works-suite-title">
@@ -391,6 +392,7 @@ function App() {
           </div>
         </div>
       </motion.section>
+      */}
 
       {/* Games Section */}
       <motion.section 
